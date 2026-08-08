@@ -5,22 +5,21 @@ import java.util.HashSet;
 
 import static org.cubexell.cubesolver.core.CubeConstants.*;
 
-public class OldPochmannMethod  
-	implements CubeSolvingMethod {
-	
-	Cube cube;
+public class OldPochmannMethod
+        implements CubeSolvingMethod {
+
+    Cube cube;
     ArrayList<String> solution;
 
-	public OldPochmannMethod () {}
-    
+    public OldPochmannMethod () {}
+
     public void executeEdgeSwap(String faceColor, ArrayList<String> solution) {
-        
-        if ("WB".equalsIgnoreCase(faceColor)) {
-            cube.recordMoves(solution, WB);
-            cube.recordMoves(solution, TPERM);
-            cube.recordMoves(solution, REV_WB);
+        if ("WB".equalsIgnoreCase(faceColor)) {//Face color is the buffer edge, this checks if White-blue edge is in the buffer spot
+            cube.recordMoves(solution, WB);//if so, it does the setup moves to swap to its correct spot
+            cube.recordMoves(solution, TPERM);//then it swaps using the t-perm
+            cube.recordMoves(solution, REV_WB);//then undoes the setup moves to bring it into the right spot
         }
-        else if ("WG".equalsIgnoreCase(faceColor)) {
+        else if ("WG".equalsIgnoreCase(faceColor)) {//checks for all edges
             cube.recordMoves(solution, WG);
             cube.recordMoves(solution, TPERM);
             cube.recordMoves(solution, REV_WG);
@@ -125,16 +124,16 @@ public class OldPochmannMethod
             cube.recordMoves(solution, TPERM);
             cube.recordMoves(solution, REV_YO);
         }
-        
+
     }
 
     public void executeCornerSwap(String faceColor, ArrayList<String> solution) {
-        
-        if ("WRB".equalsIgnoreCase(faceColor)) {
-            cube.recordMoves(solution, WRB);
-            cube.recordMoves(solution, CORNER_SWAP_ALGORITHM);
-            cube.recordMoves(solution, REV_WRB);
-        }
+
+        if ("WRB".equalsIgnoreCase(faceColor)) {//checks if white-red-blue corner is in the buffer spot
+            cube.recordMoves(solution, WRB);//if so, does the setup moves for it
+            cube.recordMoves(solution, CORNER_SWAP_ALGORITHM);//does corner swap algorithm
+            cube.recordMoves(solution, REV_WRB);//undoes setup moves
+        }//if this is false, it checks the next corner, white-green-red, and goes down the list
         else if ("WGR".equalsIgnoreCase(faceColor)) {
             cube.recordMoves(solution, WGR);
             cube.recordMoves(solution, CORNER_SWAP_ALGORITHM);
@@ -236,7 +235,7 @@ public class OldPochmannMethod
             cube.recordMoves(solution, REV_YOB);
         }
     }
-    
+
 
     private void addUnsolvedEdge(HashSet<String> unsolvedEdges, String edge){
         if(!cube.isEdgeSolved(edge))
@@ -280,6 +279,9 @@ public class OldPochmannMethod
             unsolvedCorners.add(corner);
     }
 
+
+
+
     private HashSet<String> createUnsolvedCorners() {
         HashSet<String> unsolvedCorners = new HashSet<>(22);
         addUnsolvedCorner(unsolvedCorners, "WRB");
@@ -310,92 +312,90 @@ public class OldPochmannMethod
         addUnsolvedCorner(unsolvedCorners, "YOB");
         return unsolvedCorners;
     }
-    
+
+
     String getEdgeToBeSolved(){
-        char b = cube.cubeColors[UP_FACE_INDEX][1][2];
-        char m = cube.cubeColors[RIGHT_FACE_INDEX][0][1];
-        return String.valueOf(b) + String.valueOf(m);
+        char b = cube.cubeColors[UP_FACE_INDEX][1][2];//TODO: assign the color in the b spot to a character b
+        char m = cube.cubeColors[RIGHT_FACE_INDEX][0][1];//TODO: assign the color in the m spot to a character m
+        return String.valueOf(b) + String.valueOf(m);//return a combined string of the 2 characters, e.g. "WR", "BG", etc.
     }
-    
+
+
     public void solveEdges() {
-        HashSet<String> unsolvedEdges = createUnsolvedEdges();
-        while (unsolvedEdges.size() > 0 && !cube.areEdgesSolved()) {
+        HashSet<String> unsolvedEdges = createUnsolvedEdges();//TODO: setup a HASHSET of all edges to solve by the name of unsovedEdges
+        while (unsolvedEdges.size()>0 && !cube.areEdgesSolved()) {//TODO: inside the parentheses, check if the #unsovled edges>0 AND if the edges are solved
             System.out.println("num unsolved edges: " + unsolvedEdges.size());
-            String faceColor = getEdgeToBeSolved();
- 
+            String faceColor = getEdgeToBeSolved();//TODO: define a String named faceColor to be the edge in the buffer spot
+
             System.out.println("faceColor: " + faceColor);
-            while (!"WR".equalsIgnoreCase(faceColor) &&
-                    !"RW".equalsIgnoreCase(faceColor)){
+            while (!"WR".equalsIgnoreCase(faceColor) && !"RW".equalsIgnoreCase(faceColor)) {
+                //TODO: execute the edge swap for the face color
                 executeEdgeSwap(faceColor, solution);
                 if (unsolvedEdges.contains(faceColor)) {
-                    unsolvedEdges.remove(faceColor);
+                    unsolvedEdges.remove(faceColor);//then it removes that edge from the list
                     unsolvedEdges.remove(cube.getReverseOfString(faceColor));
                 }
-                faceColor = getEdgeToBeSolved();
+                faceColor = getEdgeToBeSolved();//TODO: assign the new edge in the buffer to the variable faceColor
 
                 System.out.println("faceColor: " + faceColor);
                 System.out.println("num unsolved edges: " + unsolvedEdges.size());
+                //if the next edge to solve is the buffer, it will exit this loop, otherwise, it repeats this process
             }
-
+            //if we are here, it means we have exited the previous loop, and that the buffer(white-red) is in its spot
             if (unsolvedEdges.size() > 0) {
                 System.out.println("new cycle, swapping with: " + unsolvedEdges.iterator().next());
                 System.out.println("number of unsolved edges: " + unsolvedEdges.size());
-                executeEdgeSwap(unsolvedEdges.iterator().next(), solution);
+                //TODO: execute edge swap with a random unsolved edge (hint: take the next value in unsolvedEdges)
             }
+            //check if edges are solved, if it is, exit loop, if not, repeat for the new cycle
         }
+        //if you're here, it means edges are done, and we can more on to corners
         System.out.println("Done with edges..., unsolved edges: " + unsolvedEdges.size());
     }
-    //MAYBE DELETE IDK, MIGHT BE USELESS
-    public String getCornerToBeSolved(){
-        char a = cube.cubeColors[UP_FACE_INDEX][0][0];
-        char r = cube.cubeColors[BACK_FACE_INDEX][0][2];
-        char e = cube.cubeColors[LEFT_FACE_INDEX][0][0];
-        String faceColor = String.valueOf(a) + String.valueOf(r) + String.valueOf(e);
-        return faceColor;
-    }
+
     public void solveCorners() {
-        HashSet<String> unsolvedCorners = createUnsolvedCorners();
-        while (unsolvedCorners.size() > 0  && !cube.areCornersSolved()) {
+        HashSet<String> unsolvedCorners = createUnsolvedCorners();//setup a list of all corners to solve, we will remove corners once they're solved
+        while (unsolvedCorners.size() > 0  && !cube.areCornersSolved()) {//loops through all corners until there are none left to solve
             System.out.println("num unsolved corners: " + unsolvedCorners.size());
             char a = cube.cubeColors[UP_FACE_INDEX][0][0];
             char r = cube.cubeColors[BACK_FACE_INDEX][0][2];
             char e = cube.cubeColors[LEFT_FACE_INDEX][0][0];
-            String faceColor = String.valueOf(a) + String.valueOf(r) + String.valueOf(e);
-            while (!"WBO".equalsIgnoreCase(faceColor) &&
+            String faceColor = String.valueOf(a) + String.valueOf(r) + String.valueOf(e);//gets the color of the corner in the buffer spot, to solve
+            while (!"WBO".equalsIgnoreCase(faceColor) &&//loops through a cycle, and ends it once the buffer is in its spot
                     !"OWB".equalsIgnoreCase(faceColor) &&
                     !"BOW".equalsIgnoreCase(faceColor)){
-                executeCornerSwap(faceColor, solution);
+                executeCornerSwap(faceColor, solution);//does the corner swap for that specific edge
                 if (unsolvedCorners.contains(faceColor)){
-                    unsolvedCorners.remove(faceColor);
-                    unsolvedCorners.remove(cube.otherCorner1(a,r,e));
+                    unsolvedCorners.remove(faceColor);//then it removes that corner from the list
+                    unsolvedCorners.remove(cube.otherCorner1(a,r,e));//along with its 2 other ones that are twisted versions of it
                     unsolvedCorners.remove(cube.otherCorner2(a,r,e));
                 }
                 a = cube.cubeColors[UP_FACE_INDEX][0][0];
                 r = cube.cubeColors[BACK_FACE_INDEX][0][2];
                 e = cube.cubeColors[LEFT_FACE_INDEX][0][0];
-                faceColor = String.valueOf(a) + String.valueOf(r) + String.valueOf(e);
+                faceColor = String.valueOf(a) + String.valueOf(r) + String.valueOf(e);//get the next corner to solve
                 System.out.println("faceColor: " + faceColor);
                 System.out.println("num unsolved corners: " + unsolvedCorners.size());
+                //if the next corner to solve is the buffer, it will exit this loop, otherwise, it repeats this process
             }
             if (unsolvedCorners.size() > 0) {
                 executeCornerSwap(unsolvedCorners.iterator().next(), solution);
                 System.out.println("new cycle, swapping with: " + unsolvedCorners.iterator().next());
                 System.out.println("number of unsolved corners: " + unsolvedCorners.size());
             }
+            //check if the cube is solved, if it is, exit loop, if not, repeat for the new cycle
         }
         System.out.println("Done with corners..., unsolved corners: " + unsolvedCorners.size());
-        
+        //CUBE IS SOLVED!!!
     }
-    
+
     public String[] solve (char[][][] cubeColors) {
-    	char[][][] cubeColorsCopy = new char[6][3][3];
-    	Helper.copy3dArray(cubeColors, cubeColorsCopy);
-    	this.cube = new Cube(cubeColorsCopy);
-    	this.solution = new ArrayList<String>();
-    	solveEdges();
-    	solveCorners();
-    	return solution.toArray(new String[0]);
+        char[][][] cubeColorsCopy = new char[6][3][3];
+        Helper.copy3dArray(cubeColors, cubeColorsCopy);
+        this.cube = new Cube(cubeColorsCopy);
+        this.solution = new ArrayList<String>();
+        solveEdges();
+        solveCorners();
+        return solution.toArray(new String[0]);
     }
-
-
 }
