@@ -44,19 +44,20 @@ public class Main {
             cubeSolvingMethod = "Kociemba";
         }
 
-//        Motor upMotor = new RohsStepperMotor(2, 3, 4, 17);
-//        Motor downMotor = new RohsStepperMotor(14, 15, 18, 23);
-//        Motor rightMotor = new RohsStepperMotor(5, 6, 13, 19);
-//        Motor leftMotor = new RohsStepperMotor(22, 10, 9, 11);
-//        Motor frontMotor = new RohsStepperMotor(24, 25, 8, 7);
-//        Motor backMotor = new RohsStepperMotor(12, 16, 20, 21);
+        Motor upMotor = new RohsStepperMotor(2, 3, 4, 17);
+        Motor downMotor = new RohsStepperMotor(14, 15, 18, 23);
+        Motor rightMotor = new RohsStepperMotor(5, 6, 13, 19);
+        Motor leftMotor = new RohsStepperMotor(22, 10, 9, 11);
+        Motor frontMotor = new RohsStepperMotor(24, 25, 8, 7);
+        Motor backMotor = new RohsStepperMotor(12, 16, 20, 21);
 
-        Motor upMotor = new RohsStepperMotor (24, 25, 8, 7);
-		Motor downMotor = new RohsStepperMotor (1, 12, 16, 20);
-		Motor rightMotor = new RohsStepperMotor (21, 26, 19, 13);
-		Motor leftMotor = new RohsStepperMotor (2, 3, 4, 17);
-		Motor frontMotor = new RohsStepperMotor (6, 5, 0, 11);
-		Motor backMotor = new RohsStepperMotor (9, 10, 22, 27);
+         //DON'T USE, ONLY USE IF YOU AREN'T USING PCB, AND MANUALLY WIRING GPIOS
+//        Motor upMotor = new RohsStepperMotor (24, 25, 8, 7);
+//		Motor downMotor = new RohsStepperMotor (1, 12, 16, 20);
+//		Motor rightMotor = new RohsStepperMotor (21, 26, 19, 13);
+//		Motor leftMotor = new RohsStepperMotor (2, 3, 4, 17);
+//		Motor frontMotor = new RohsStepperMotor (6, 5, 0, 11);
+//		Motor backMotor = new RohsStepperMotor (9, 10, 22, 27);
 
         Robot robot = new RaspberryPiRobot(upMotor, downMotor, rightMotor, leftMotor, frontMotor, backMotor);
 
