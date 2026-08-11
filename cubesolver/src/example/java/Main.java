@@ -25,14 +25,14 @@ public class Main {
 
         //TODO create logic for retrieving arguments inputted from command line on raspberry pi5
 
-        if () {//TODO check that enough arguments were inputted, i.e. at least 3,
+        if (args.length > 2 && args[0] != null) {//TODO check that enough arguments were inputted, i.e. at least 3,
             //TODO and check that the first argument is not null
-            method;//TODO assign to the method variable the string in the first argument
-            isScramblingCube;//TODO assign to the method variable the string in the second argument
-            if (){//TODO check that the third argument is not null
-                if(){//TODO check if the third argument is "Y" for yes
+            method = args[0];//TODO assign to the method variable the string in the first argument
+            isScramblingCube = args[1];//TODO assign to the method variable the string in the second argument
+            if (args[2] != null){//TODO check that the third argument is not null
+                if(args[2].equalsIgnoreCase("y")){//TODO check if the third argument is "Y" for yes
                     autoTune = true;
-                    System.out.println("autoTuning");
+                    System.out.println("autotuning");
                 }
             }
         }
@@ -61,6 +61,7 @@ public class Main {
 //		Motor leftMotor = new RohsStepperMotor (2, 3, 4, 17);
 //		Motor frontMotor = new RohsStepperMotor (6, 5, 0, 11);
 //		Motor backMotor = new RohsStepperMotor (9, 10, 22, 27);
+        //
 
         Robot robot = new RaspberryPiRobot(upMotor, downMotor, rightMotor, leftMotor, frontMotor, backMotor);
 
@@ -107,7 +108,7 @@ public class Main {
 			String[] scrambleMoves = scrambler.getScramble(20);
 			System.out.println("------Scramble-------------");
 			for (String scrambleMove : scrambleMoves) {
-				System.out.print(scrambleMove + ",");
+				System.out.print(scrambleMove + " ");
 			}
             cubeColors = scrambler.scramble(scrambleMoves);
             Thread.sleep(5000);

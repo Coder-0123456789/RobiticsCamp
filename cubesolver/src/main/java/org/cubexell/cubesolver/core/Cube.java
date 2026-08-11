@@ -2,6 +2,7 @@ package org.cubexell.cubesolver.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.cubexell.cubesolver.core.CubeConstants.*;
 
@@ -439,87 +440,68 @@ public class Cube {
     }
     
     public void recordMoves(ArrayList<String> solution, String[] moves) {
-    	for(int i = 0; i < moves.length; i++) {
-    		solution.add(moves[i]);
-    	}
+        Collections.addAll(solution, moves);
     	simulateMoves(moves);
     }
 
     public void simulateMoves(String[] moves){
         System.out.println(Arrays.toString(moves));
 
-        for (int i = 0; i < moves.length; i++){
-            if ("R".equalsIgnoreCase(moves[i])){
-                    rotate90(cubeColors[RIGHT_FACE_INDEX]);
-                    turnOutSideRightFace_90();
-            }
-            else if ("R2".equalsIgnoreCase(moves[i])) {
-                    rotate180(cubeColors[RIGHT_FACE_INDEX]);
-                    turnOutSideRightFace_180();
-            }
-            else if ("Ri".equalsIgnoreCase(moves[i])) {
-                    rotate270(cubeColors[RIGHT_FACE_INDEX]);
-                    turnOutSideRightFace_270();
-            }
-            else if ("L".equalsIgnoreCase(moves[i])) {
-                    rotate90(cubeColors[LEFT_FACE_INDEX]);
-                    turnOutsideLeftFace90();
-            }
-            else if ("L2".equalsIgnoreCase(moves[i])) {
-                    rotate180(cubeColors[LEFT_FACE_INDEX]);
-                    turnOutsideLeftFace180();
-            }
-            else if ("Li".equalsIgnoreCase(moves[i])) {
-                    rotate270(cubeColors[LEFT_FACE_INDEX]);
-                    turnOutSideLeftFace_270();
-            }
-            else if ("U".equalsIgnoreCase(moves[i])) {
-                    rotate90(cubeColors[UP_FACE_INDEX]);
-                    turnOutsideUpFace90();
-            }
-            else if ("U2".equalsIgnoreCase(moves[i])) {
-                    rotate180(cubeColors[UP_FACE_INDEX]);
-                    turnOutsideUpFace180();
-            }
-            else if ("Ui".equalsIgnoreCase(moves[i])) {
-                    rotate270(cubeColors[UP_FACE_INDEX]);
-                    turnOutsideUpFace270();
-            }
-            else if ("D".equalsIgnoreCase(moves[i])) {
-                    rotate90(cubeColors[DOWN_FACE_INDEX]);
-                    turnOutsideDownFace90();
-            }
-            else if ("D2".equalsIgnoreCase(moves[i])) {
-                    rotate180(cubeColors[DOWN_FACE_INDEX]);
-                    turnOutsideDownFace180();
-            }
-            else if ("Di".equalsIgnoreCase(moves[i])) {
-                    rotate270(cubeColors[DOWN_FACE_INDEX]);
-                    turnOutsideDownFace270();
-            }
-            else if ("F".equalsIgnoreCase(moves[i])) {
-                    rotate90(cubeColors[FRONT_FACE_INDEX]);
-                    turnOutSideFrontFace_90();
-            }
-            else if ("F2".equalsIgnoreCase(moves[i])) {
-                    rotate180(cubeColors[FRONT_FACE_INDEX]);
-                    turnOutSideFrontFace_180();
-            }
-            else if ("Fi".equalsIgnoreCase(moves[i])) {
-                    rotate270(cubeColors[FRONT_FACE_INDEX]);
-                    turnOutSideFrontFace_270();
-            }
-            else if ("B".equalsIgnoreCase(moves[i])) {
-                    rotate90(cubeColors[BACK_FACE_INDEX]);
-                    turnOutSideBackFace_90();
-            }
-            else if ("B2".equalsIgnoreCase(moves[i])) {
-                    rotate180(cubeColors[BACK_FACE_INDEX]);
-                    turnOutSideBackFace_180();
-            }
-            else if ("Bi".equalsIgnoreCase(moves[i])) {
-                    rotate270(cubeColors[BACK_FACE_INDEX]);
-                    turnOutSideBackFace_270();
+        for (String move : moves) {
+            if ("R".equalsIgnoreCase(move)) {
+                rotate90(cubeColors[RIGHT_FACE_INDEX]);
+                turnOutSideRightFace_90();
+            } else if ("R2".equalsIgnoreCase(move)) {
+                rotate180(cubeColors[RIGHT_FACE_INDEX]);
+                turnOutSideRightFace_180();
+            } else if ("Ri".equalsIgnoreCase(move)) {
+                rotate270(cubeColors[RIGHT_FACE_INDEX]);
+                turnOutSideRightFace_270();
+            } else if ("L".equalsIgnoreCase(move)) {
+                rotate90(cubeColors[LEFT_FACE_INDEX]);
+                turnOutsideLeftFace90();
+            } else if ("L2".equalsIgnoreCase(move)) {
+                rotate180(cubeColors[LEFT_FACE_INDEX]);
+                turnOutsideLeftFace180();
+            } else if ("Li".equalsIgnoreCase(move)) {
+                rotate270(cubeColors[LEFT_FACE_INDEX]);
+                turnOutSideLeftFace_270();
+            } else if ("U".equalsIgnoreCase(move)) {
+                rotate90(cubeColors[UP_FACE_INDEX]);
+                turnOutsideUpFace90();
+            } else if ("U2".equalsIgnoreCase(move)) {
+                rotate180(cubeColors[UP_FACE_INDEX]);
+                turnOutsideUpFace180();
+            } else if ("Ui".equalsIgnoreCase(move)) {
+                rotate270(cubeColors[UP_FACE_INDEX]);
+                turnOutsideUpFace270();
+            } else if ("D".equalsIgnoreCase(move)) {
+                rotate90(cubeColors[DOWN_FACE_INDEX]);
+                turnOutsideDownFace90();
+            } else if ("D2".equalsIgnoreCase(move)) {
+                rotate180(cubeColors[DOWN_FACE_INDEX]);
+                turnOutsideDownFace180();
+            } else if ("Di".equalsIgnoreCase(move)) {
+                rotate270(cubeColors[DOWN_FACE_INDEX]);
+                turnOutsideDownFace270();
+            } else if ("F".equalsIgnoreCase(move)) {
+                rotate90(cubeColors[FRONT_FACE_INDEX]);
+                turnOutSideFrontFace_90();
+            } else if ("F2".equalsIgnoreCase(move)) {
+                rotate180(cubeColors[FRONT_FACE_INDEX]);
+                turnOutSideFrontFace_180();
+            } else if ("Fi".equalsIgnoreCase(move)) {
+                rotate270(cubeColors[FRONT_FACE_INDEX]);
+                turnOutSideFrontFace_270();
+            } else if ("B".equalsIgnoreCase(move)) {
+                rotate90(cubeColors[BACK_FACE_INDEX]);
+                turnOutSideBackFace_90();
+            } else if ("B2".equalsIgnoreCase(move)) {
+                rotate180(cubeColors[BACK_FACE_INDEX]);
+                turnOutSideBackFace_180();
+            } else if ("Bi".equalsIgnoreCase(move)) {
+                rotate270(cubeColors[BACK_FACE_INDEX]);
+                turnOutSideBackFace_270();
             }
         }
     }

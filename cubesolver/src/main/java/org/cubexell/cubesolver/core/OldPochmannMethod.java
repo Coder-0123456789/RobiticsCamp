@@ -333,7 +333,7 @@ public class OldPochmannMethod
                 executeEdgeSwap(faceColor, solution);
                 if (unsolvedEdges.contains(faceColor)) {
                     unsolvedEdges.remove(faceColor);//then it removes that edge from the list
-                    unsolvedEdges.remove(cube.getReverseOfString(faceColor));
+                    unsolvedEdges.remove(Cube.getReverseOfString(faceColor));
                 }
                 faceColor = getEdgeToBeSolved();//TODO: assign the new edge in the buffer to the variable faceColor
 
@@ -341,13 +341,10 @@ public class OldPochmannMethod
                 System.out.println("num unsolved edges: " + unsolvedEdges.size());
                 //if the next edge to solve is the buffer, it will exit this loop, otherwise, it repeats this process
             }
-            //if we are here, it means we have exited the previous loop, and that the buffer(white-red) is in its spot
-            if (unsolvedEdges.size() > 0) {
-                System.out.println("new cycle, swapping with: " + unsolvedEdges.iterator().next());
-                System.out.println("number of unsolved edges: " + unsolvedEdges.size());
-                //TODO: execute edge swap with a random unsolved edge (hint: take the next value in unsolvedEdges)
+            if (!unsolvedEdges.isEmpty()) {
+                executeEdgeSwap(unsolvedEdges.iterator().next(), solution);
             }
-            //check if edges are solved, if it is, exit loop, if not, repeat for the new cycle
+
         }
         //if you're here, it means edges are done, and we can more on to corners
         System.out.println("Done with edges..., unsolved edges: " + unsolvedEdges.size());

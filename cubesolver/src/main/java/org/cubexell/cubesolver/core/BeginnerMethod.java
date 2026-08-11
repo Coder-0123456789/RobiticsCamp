@@ -568,7 +568,7 @@ public class BeginnerMethod
         } else if (position[0] == 'L' && position[1] == 'D') {
             cube.recordMoves(solution, new String[]{"Di", "Fi", "D", "F", "D", "L", "Di", "Li"});
         }
-        return;
+        ret urn;
     }
 
     public void solveYellowCross() {
