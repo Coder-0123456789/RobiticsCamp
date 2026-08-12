@@ -1,7 +1,6 @@
 package org.cubexell.cubesolver.core;
 
-import static org.cubexell.cubesolver.core.CubeConstants.POSSIBLE_MOVES;
-import static org.cubexell.cubesolver.core.CubeConstants.POSSIBLE_MOVES;
+import static org.cubexell.cubesolver.core.CubeConstants.*;
 
 
 public class CubeScrambler {
@@ -12,6 +11,23 @@ public class CubeScrambler {
 	public CubeScrambler(Robot robot) {
 		this.robot = robot;
 	}
+
+	public int getFaceIndex(char face) {
+		if (face == 'U') {
+			return -1;
+		} else if (face == 'D') {
+			return 1;
+		} else if (face == 'L'){
+			return 2;
+		} else if (face == 'R'){
+			return -2;
+		} else if (face == 'F'){
+			return 3;
+		} else{ // Back
+			return -3;
+		}
+	}
+
 	protected String randomScrambleMove() {
 		int randomIndex = (int) (Math.random() * POSSIBLE_MOVES.length);
 		return POSSIBLE_MOVES[randomIndex];
@@ -29,14 +45,22 @@ public class CubeScrambler {
 		boolean[] availableFaces = {true, true, true, true, true, true};
 		for (int i = 0; i < numMoves; i++) {
 			boolean moveAvailable = false;
-			boolean = moveAvailable;
-			while moveAvailable {
-				
+			String finalMove = "";
+			while (moveAvailable) {
+				String move = randomScrambleMove();
+				char moveFace = getFace(move);
+				if (availableFaces[getFaceIndex(moveFace)]) {
+					moveAvailable = true;
+					boolean opposite_true = availableFaces[-getFaceIndex(moveFace)];
+					availableFaces = new boolean[]{true, true, true, true, true, true};
+					availableFaces[getFaceIndex(moveFace)] = false;
+					availableFaces[-getFaceIndex(moveFace)] = opposite_true;
+					finalMove = move;
+				}
 			}
+			moves[i] = finalMove;
 		}
-
-
-
+		return moves;
 	}
 
 	public char[][][] scramble(String[] scrambleMoves){
